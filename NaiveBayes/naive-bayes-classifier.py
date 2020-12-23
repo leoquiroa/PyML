@@ -102,6 +102,7 @@ def calculate_class_probabilities(summaries, row):
 	for class_value, class_summaries in summaries.items():
 		probabilities[class_value] = summaries[class_value][0][2]/float(total_rows)
 		for i in range(len(class_summaries)):
+			# every feature with its correspondent feature x1-x1,x2-x2,x3-x3,x4-x4,
 			mean, stdev, _ = class_summaries[i]
 			probabilities[class_value] *= calculate_probability(row[i], mean, stdev)
 	return probabilities
@@ -128,6 +129,7 @@ def evaluate_algorithm(dataset, algorithm, n_folds, *args):
 			row_copy = list(row)
 			test_set.append(row_copy)
 			row_copy[-1] = None
+		# clean the label in the test_set
 		predicted = algorithm(train_set, test_set, *args)
 		actual = [row[-1] for row in fold]
 		accuracy = accuracy_metric(actual, predicted)
@@ -182,7 +184,6 @@ if __name__ == "__main__":
 	scores = evaluate_algorithm(dataset, naive_bayes, n_folds)
 	print('Scores: %s' % scores)
 	print('Mean Accuracy: %.3f%%' % (sum(scores)/float(len(scores))))
-	'''
 	# split and calculate mean/stdev
 	model = summarize_by_class(dataset)
 	# define a new record and predict
@@ -195,4 +196,4 @@ if __name__ == "__main__":
 	row = [5.2,4.1,1.5,0.1]
 	label = predict(model, row)
 	print('Data=%s, Predicted: %s' % (row, label))
-	'''
+	
