@@ -86,6 +86,7 @@ def stdev(numbers):
 # Predict the class for a given row
 def predict(summaries, row):
 	probabilities = calculate_class_probabilities(summaries, row)
+	print('probabilities ',probabilities)
 	best_label, best_prob = None, -1
 	for class_value, probability in probabilities.items():
 		if best_label is None or probability > best_prob:
@@ -121,5 +122,11 @@ if __name__ == "__main__":
 	model = summarize_by_class(dataset)
 	# define a new record and predict
 	row = [5.7,2.9,4.2,1.3]
+	label = predict(model, row)
+	print('Data=%s, Predicted: %s' % (row, label))
+	row = [6.2,3.4,5.4,2.3]
+	label = predict(model, row)
+	print('Data=%s, Predicted: %s' % (row, label))
+	row = [5.2,4.1,1.5,0.1]
 	label = predict(model, row)
 	print('Data=%s, Predicted: %s' % (row, label))
